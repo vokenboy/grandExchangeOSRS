@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "RuneScapeBold";
+  src: url("./runescape_bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "RuneScapeSmall";
+  src: url("./runescape_small.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    --osrs-bg: #0f1117;
+    --osrs-panel: #1a1f2a;
+    --osrs-border: #2b3340;
+    --osrs-accent: #e6c16a;
+    --osrs-accent-dark: #b08a36;
+    --osrs-text: #f5f3ed;
+    --osrs-muted: #cbd2e0;
+    --osrs-cursor: url("/cursors/dragon-scimitar.cur"), auto;
+  }
+
+  html {
+    font-size: 22px;
+  }
+
+  html,
+  body {
+    @apply bg-[var(--osrs-bg)] text-[var(--osrs-text)] font-osrsBody;
+    background: radial-gradient(120% 120% at 20% 20%, rgba(230, 193, 106, 0.12), transparent),
+      radial-gradient(140% 140% at 80% 10%, rgba(93, 116, 152, 0.25), transparent),
+      radial-gradient(160% 160% at 50% 80%, rgba(15, 17, 23, 0.96), #0f1117);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  /* utility to hide scrollbars on any scrollable container while keeping scroll enabled */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-osrs;
+    letter-spacing: 0.04em;
+  }
+
+  * {
+    font-family: "RuneScapeSmall", serif !important;
+    cursor: var(--osrs-cursor) !important;
+  }
+
+  *:hover,
+  *:active,
+  *:focus,
+  html,
+  body,
+  a,
+  button,
+  input,
+  textarea,
+  select,
+  option {
+    cursor: var(--osrs-cursor) !important;
+  }
+}
