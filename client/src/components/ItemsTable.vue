@@ -80,14 +80,14 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col h-full overflow-hidden relative">
+  <div class="flex flex-col h-full overflow-hidden relative rounded-lg">
     <div
-      class="overflow-y-auto overflow-x-hidden no-scrollbar max-h-[calc(100vh-300px)] relative scroll-container"
+      class="overflow-y-auto overflow-x-auto no-scrollbar max-h-[calc(100vh-300px)] relative scroll-container rounded-lg"
     >
       <!-- Top scroll indicator -->
       <div class="scroll-indicator-top absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-osrs-panel/90 to-transparent pointer-events-none z-20 opacity-0 transition-opacity"></div>
 
-      <table class="w-full text-base table-fixed">
+      <table class="w-full min-w-[800px] text-base table-fixed rounded-lg overflow-hidden">
         <colgroup>
           <col style="width: 30%" />
           <col style="width: 14%" />
@@ -97,7 +97,7 @@ onUnmounted(() => {
           <col style="width: 12%" />
           <col style="width: 8%" />
         </colgroup>
-        <thead class="border-b border-osrs-border sticky top-0 bg-osrs-panel/90 backdrop-blur z-10">
+        <thead class="border-b-2 border-osrs-border sticky top-0 bg-osrs-panel backdrop-blur z-10">
           <tr>
             <th
               class="px-2 py-3 text-left text-sm font-semibold uppercase tracking-wide cursor-pointer select-none whitespace-nowrap transition-colors"
@@ -385,7 +385,7 @@ onUnmounted(() => {
           <tr
             v-for="item in items"
             :key="item.id"
-            class="odd:bg-osrs-panel/60 even:bg-osrs-panel/40 hover:bg-osrs-accent/10 hover:scale-[1.01] cursor-pointer focus:outline-none"
+            class="odd:bg-osrs-panel/60 even:bg-osrs-panel/40 hover:bg-osrs-accent/20 transition-all cursor-pointer focus:outline-none border-b border-osrs-border/30"
             role="button"
             tabindex="0"
             @click="goToDetail(item)"

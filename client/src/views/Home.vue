@@ -103,7 +103,7 @@ onMounted(async () => {
 <template>
   <div class="px-3 py-4 sm:px-4 space-y-4">
     <section
-      class="rounded-md border border-osrs-border bg-osrs-panel/90 p-3 sm:p-4 space-y-4 shadow-osrs backdrop-blur"
+      class="rounded-xl border-2 border-osrs-border bg-osrs-panel/95 p-3 sm:p-4 space-y-4 shadow-lg backdrop-blur"
     >
       <div class="px-1 sm:px-2 pt-1 sm:pt-2 flex items-center gap-3 flex-wrap">
         <Search :querry="querry" @update:querry="onSearchChange" />

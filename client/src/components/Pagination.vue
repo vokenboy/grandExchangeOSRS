@@ -57,28 +57,28 @@ watch(
     <div class="flex items-center gap-2 text-osrs-text flex-wrap sm:flex-nowrap">
       <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
         <button
-          class="px-3 py-1 rounded border border-osrs-border bg-osrs-panel text-xs hover:bg-osrs-accent/20 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+          class="px-3 py-1 rounded-lg border-2 border-osrs-border bg-osrs-panel text-xs hover:bg-osrs-accent/20 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shadow-md"
           :disabled="!hasPrev"
           @click="goTo(1)"
         >
           First
         </button>
         <button
-          class="px-3 py-1 rounded border border-osrs-border bg-osrs-panel text-xs hover:bg-osrs-accent/20 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+          class="px-3 py-1 rounded-lg border-2 border-osrs-border bg-osrs-panel text-xs hover:bg-osrs-accent/20 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shadow-md"
           :disabled="!hasPrev"
           @click="goTo(page - 1)"
         >
           Prev
         </button>
         <button
-          class="px-3 py-1 rounded border border-osrs-border bg-osrs-panel text-xs hover:bg-osrs-accent/20 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+          class="px-3 py-1 rounded-lg border-2 border-osrs-border bg-osrs-panel text-xs hover:bg-osrs-accent/20 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shadow-md"
           :disabled="!hasNext"
           @click="goTo(page + 1)"
         >
           Next
         </button>
         <button
-          class="px-3 py-1 rounded border border-osrs-border bg-osrs-panel text-xs hover:bg-osrs-accent/20 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+          class="px-3 py-1 rounded-lg border-2 border-osrs-border bg-osrs-panel text-xs hover:bg-osrs-accent/20 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shadow-md"
           :disabled="!hasNext"
           @click="goTo(totalPages)"
         >
@@ -94,12 +94,12 @@ watch(
           v-model="inputPage"
           :max="safeTotalPages"
           type="number"
-          class="w-14 sm:w-12 rounded bg-osrs-panel border border-osrs-border px-2 py-1 text-xs text-osrs-text focus:outline-none focus:ring-1 focus:ring-osrs-accent [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+          class="w-14 sm:w-12 rounded-lg bg-osrs-panel border-2 border-osrs-border px-2 py-1 text-xs text-osrs-text focus:outline-none focus:ring-2 focus:ring-osrs-accent shadow-md [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
           :disabled="disabled"
           @keyup.enter="submitInput"
         />
         <button
-          class="px-2 py-1 rounded border border-osrs-border bg-osrs-panel text-xs hover:bg-osrs-accent/20 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+          class="px-2 py-1 rounded-lg border-2 border-osrs-border bg-osrs-panel text-xs hover:bg-osrs-accent/20 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shadow-md"
           :disabled="disabled"
           @click="submitInput"
         >

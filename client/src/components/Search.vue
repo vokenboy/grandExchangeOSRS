@@ -29,7 +29,7 @@ onBeforeUnmount(() => {
     :value="querry"
     placeholder="Search items..."
     type="text"
-    class="w-72 rounded border border-osrs-border bg-osrs-panel px-3 py-2 text-sm text-osrs-text placeholder:text-osrs-muted focus:outline-none focus:ring-1 focus:ring-osrs-accent focus:border-osrs-accent shadow-osrs"
+    class="w-72 rounded-lg border-2 border-osrs-border bg-osrs-panel px-3 py-2 text-sm text-osrs-text placeholder:text-osrs-muted focus:outline-none focus:ring-2 focus:ring-osrs-accent focus:border-osrs-accent shadow-lg"
     @input="onInput"
   />
 </template>

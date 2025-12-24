@@ -20,13 +20,15 @@
 
 @layer base {
   :root {
-    --osrs-bg: #0f1117;
-    --osrs-panel: #1a1f2a;
-    --osrs-border: #2b3340;
-    --osrs-accent: #e6c16a;
-    --osrs-accent-dark: #b08a36;
-    --osrs-text: #f5f3ed;
-    --osrs-muted: #cbd2e0;
+    --osrs-bg: #2d1f17;
+    --osrs-panel: #4a3829;
+    --osrs-border: #6b5644;
+    --osrs-accent: #ffcc00;
+    --osrs-accent-dark: #d4a017;
+    --osrs-text: #e8dcc4;
+    --osrs-muted: #b8a888;
+    --osrs-green: #00ff00;
+    --osrs-red: #ff0000;
     --osrs-cursor: auto;
   }
 
