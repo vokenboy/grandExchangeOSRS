@@ -10,6 +10,16 @@ export interface ItemGraphSeries {
   itemId: number;
 }
 
+export interface ItemsResponse {
+  items: Item[];
+  totalPages: number;
+  total: number;
+}
+
+export interface ItemDetailResponse {
+  item: Item;
+}
+
 export const getItems = async (
   query: string,
   page = 1,
@@ -18,7 +28,7 @@ export const getItems = async (
   sortDir: SortDir = null,
 ) => {
   const term = query.trim();
-  const { data } = await api.get<Item[]>("/api/items", {
+  const { data } = await api.get<ItemsResponse>("/api/items", {
     params: {
       q: term,
       page,
@@ -31,7 +41,7 @@ export const getItems = async (
 };
 
 export const getItem = async (itemId: number) => {
-  const { data } = await api.get<Item>(`/api/item/${itemId}/detail`);
+  const { data } = await api.get<ItemDetailResponse>(`/api/item/${itemId}/detail`);
   return data;
 };
 

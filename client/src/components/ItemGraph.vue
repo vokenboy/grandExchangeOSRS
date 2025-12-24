@@ -86,7 +86,7 @@ const ranges: Array<{
   { value: "year", label: "Year", timestep: "24h", windowSec: 365 * 24 * 60 * 60 },
 ];
 
-const currentRange = computed(() => ranges.find((r) => r.value === range.value) ?? ranges[0]);
+const currentRange = computed(() => ranges.find((r) => r.value === range.value)!);
 
 type Point = { t: number; price: number };
 
@@ -159,7 +159,8 @@ const tickConfig = computed(() => {
       maxTicks: 10,
       format: (ts: number, index: number) => {
         const day = Math.floor(ts / 86400);
-        const prevDay = index > 0 ? Math.floor(baseTimes.value[index - 1] / 86400) : null;
+        const prevTime = index > 0 ? baseTimes.value[index - 1] : null;
+        const prevDay = prevTime !== null && prevTime !== undefined ? Math.floor(prevTime / 86400) : null;
         if (prevDay === day) return "";
         return new Date(ts * 1000).toLocaleDateString([], { weekday: "short" });
       },
@@ -170,7 +171,8 @@ const tickConfig = computed(() => {
       maxTicks: 32,
       format: (ts: number, index: number) => {
         const day = Math.floor(ts / 86400);
-        const prevDay = index > 0 ? Math.floor(baseTimes.value[index - 1] / 86400) : null;
+        const prevTime = index > 0 ? baseTimes.value[index - 1] : null;
+        const prevDay = prevTime !== null && prevTime !== undefined ? Math.floor(prevTime / 86400) : null;
         if (prevDay === day) return "";
         return day % 2 === 0
           ? new Date(ts * 1000).toLocaleDateString([], { month: "short", day: "numeric" })
@@ -183,7 +185,8 @@ const tickConfig = computed(() => {
       maxTicks: 18,
       format: (ts: number, index: number) => {
         const day = Math.floor(ts / 86400);
-        const prevDay = index > 0 ? Math.floor(baseTimes.value[index - 1] / 86400) : null;
+        const prevTime = index > 0 ? baseTimes.value[index - 1] : null;
+        const prevDay = prevTime !== null && prevTime !== undefined ? Math.floor(prevTime / 86400) : null;
         if (prevDay === day) return "";
         const d = new Date(ts * 1000);
         return d.getDate() === 1
@@ -197,7 +200,8 @@ const tickConfig = computed(() => {
     maxTicks: 24,
     format: (ts: number, index: number) => {
       const day = Math.floor(ts / 86400);
-      const prevDay = index > 0 ? Math.floor(baseTimes.value[index - 1] / 86400) : null;
+      const prevTime = index > 0 ? baseTimes.value[index - 1] : null;
+      const prevDay = prevTime !== null && prevTime !== undefined ? Math.floor(prevTime / 86400) : null;
       if (prevDay === day) return "";
       const d = new Date(ts * 1000);
       return d.getDate() === 1 && d.getMonth() % 2 === 0
@@ -253,7 +257,7 @@ const chartOptions = computed(() => ({
   },
   scales: {
     x: {
-      position: "bottom",
+      position: "bottom" as const,
       grid: {
         color: "#3a2a1a",
         drawOnChartArea: true,
