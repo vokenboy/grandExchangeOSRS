@@ -111,7 +111,7 @@ const formatTimeAgo = (epochSeconds: number | null) => {
 };
 
 const wikiLink = computed(() =>
-  item.value ? `https://prices.runescape.wiki/osrs/item/${item.value.id}` : null
+  item.value ? `https://prices.runescape.wiki/osrs/item/${item.value.id}` : null,
 );
 
 const fetchItem = async (id: number) => {
@@ -146,7 +146,7 @@ const syncFromRoute = () => {
 onMounted(syncFromRoute);
 watch(
   () => route.params.id,
-  () => syncFromRoute()
+  () => syncFromRoute(),
 );
 </script>
 

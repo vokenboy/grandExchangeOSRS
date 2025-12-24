@@ -27,7 +27,7 @@
     --osrs-accent-dark: #b08a36;
     --osrs-text: #f5f3ed;
     --osrs-muted: #cbd2e0;
-    --osrs-cursor: url("/cursors/dragon-scimitar.cur"), auto;
+    --osrs-cursor: auto;
   }
 
   html {
@@ -37,7 +37,8 @@
   html,
   body {
     @apply bg-[var(--osrs-bg)] text-[var(--osrs-text)] font-osrsBody;
-    background: radial-gradient(120% 120% at 20% 20%, rgba(230, 193, 106, 0.12), transparent),
+    background:
+      radial-gradient(120% 120% at 20% 20%, rgba(230, 193, 106, 0.12), transparent),
       radial-gradient(140% 140% at 80% 10%, rgba(93, 116, 152, 0.25), transparent),
       radial-gradient(160% 160% at 50% 80%, rgba(15, 17, 23, 0.96), #0f1117);
     scrollbar-width: none;

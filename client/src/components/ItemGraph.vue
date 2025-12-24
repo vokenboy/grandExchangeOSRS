@@ -49,7 +49,7 @@ ChartJS.register(
   Filler,
   Tooltip,
   Legend,
-  crosshairPlugin
+  crosshairPlugin,
 );
 
 export type GraphSeries = Record<string, number>;
@@ -357,11 +357,7 @@ const fetchGraph = async () => {
     const high: GraphSeries = {};
     const low: GraphSeries = {};
 
-    for (const point of data as Array<{
-      timestamp: number;
-      avgHighPrice: number | null;
-      avgLowPrice: number | null;
-    }>) {
+    for (const point of data) {
       const ts = Number(point.timestamp);
       if (!Number.isFinite(ts)) continue;
       if (point.avgHighPrice !== null && point.avgHighPrice !== undefined) {
@@ -392,21 +388,21 @@ watch(
   async () => {
     graphData.value = props.graph ?? null;
     await fetchGraph();
-  }
+  },
 );
 
 watch(
   () => range.value,
   async () => {
     await fetchGraph();
-  }
+  },
 );
 
 watch(
   () => graphData.value,
   async () => {
     await nextTick();
-  }
+  },
 );
 </script>
 

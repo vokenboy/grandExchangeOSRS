@@ -9,12 +9,13 @@ import { type SortDir } from "../types/SortDir";
 import ItemsTable from "@/components/ItemsTable.vue";
 import Search from "@/components/Search.vue";
 import Pagination from "@/components/Pagination.vue";
+import PerPageSelector from "@/components/PerPageSelector.vue";
 
 const queryStore = useItemsQueryStore();
 const { querry, page, sortKey, sortDir } = storeToRefs(queryStore);
 const { hydrateFromRoute, syncQuery } = queryStore;
 
-const pageSize = 10;
+const pageSize = ref(10);
 
 const items = ref<Item[]>();
 const error = ref<string | null>(null);
@@ -33,7 +34,7 @@ const loadItems = async (targetPage = page.value, syncRoute = true) => {
 
     if (syncRoute) await syncQuery();
 
-    const data = await getItems(term, page.value, pageSize, sortKey.value, sortDir.value);
+    const data = await getItems(term, page.value, pageSize.value, sortKey.value, sortDir.value);
     items.value = data.items ?? [];
     totalPages.value = data.totalPages ?? 0;
     totalItems.value = data.total ?? 0;
@@ -86,6 +87,12 @@ const sortChange = (sort: { key: SortKey; dir: SortDir }) => {
   void loadItems(1);
 };
 
+const onPageSizeChange = async (newSize: number) => {
+  pageSize.value = newSize;
+  page.value = 1;
+  await loadItems(1);
+};
+
 onMounted(async () => {
   hydrateFromRoute();
   await loadItems(page.value, false);
@@ -100,20 +107,25 @@ onMounted(async () => {
     >
       <div class="px-1 sm:px-2 pt-1 sm:pt-2 flex items-center gap-3 flex-wrap">
         <Search :querry="querry" @update:querry="onSearchChange" />
+        <PerPageSelector :page-size="pageSize" @update:page-size="onPageSizeChange" />
       </div>
       <div v-if="error" class="p-4 text-sm text-osrs-red">
         {{ error }}
       </div>
-      <div v-else class="space-y-3">
-        <div v-if="hasSearched">
-          <ItemsTable
-            v-if="items"
-            :items="items"
-            :sort-key="sortKey"
-            :sort-dir="sortDir"
-            @sort="sortChange"
-          />
-          <Pagination :page="page" :total-pages="totalPages" @page="pageChange" />
+      <div v-else class="flex flex-col h-full">
+        <div v-if="hasSearched" class="flex flex-col min-h-0 flex-1">
+          <div class="flex-1 min-h-0">
+            <ItemsTable
+              v-if="items"
+              :items="items"
+              :sort-key="sortKey"
+              :sort-dir="sortDir"
+              @sort="sortChange"
+            />
+          </div>
+          <div class="mt-3 flex-shrink-0">
+            <Pagination :page="page" :total-pages="totalPages" @page="pageChange" />
+          </div>
         </div>
       </div>
     </section>

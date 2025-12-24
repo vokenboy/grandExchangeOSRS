@@ -1,8 +1,8 @@
 import { Router } from "express";
 import {
-    getItemDetailHandler,
-    getItemGraphHandler,
-    getItemsHandler,
+  getItemDetailHandler,
+  getItemGraphHandler,
+  getItemsHandler,
 } from "../controllers/item.controller";
 
 const router = Router();

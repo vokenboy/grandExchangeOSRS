@@ -7,7 +7,7 @@ const props = withDefaults(
     totalPages: number;
     disabled?: boolean;
   }>(),
-  { disabled: false }
+  { disabled: false },
 );
 
 const emit = defineEmits<{
@@ -21,7 +21,7 @@ const hasNext = computed(() => props.page < safeTotalPages.value);
 const hasPrev = computed(() => props.page > 1);
 
 const safeTotalPages = computed(() =>
-  props.totalPages && props.totalPages > 0 ? props.totalPages : 1
+  props.totalPages && props.totalPages > 0 ? props.totalPages : 1,
 );
 
 const clamp = (target: number) => {
@@ -48,7 +48,7 @@ watch(
   () => props.page,
   (val) => {
     inputPage.value = val.toString();
-  }
+  },
 );
 </script>
 

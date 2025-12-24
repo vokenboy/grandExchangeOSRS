@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { onMounted, onUnmounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import type { Item } from "@/types/Item";
 import { type SortKey } from "../types/SortKey";
@@ -41,16 +42,66 @@ const sortState = (key: SortKey) => {
 const goToDetail = (item: Item) => {
   void router.push({ name: "item-detail", params: { id: item.id }, query: route.query });
 };
+
+const updateScrollIndicators = () => {
+  const container = document.querySelector(".scroll-container") as HTMLElement;
+  if (!container) return;
+
+  const topIndicator = document.querySelector(".scroll-indicator-top") as HTMLElement;
+  const bottomIndicator = document.querySelector(".scroll-indicator-bottom") as HTMLElement;
+
+  const { scrollTop, scrollHeight, clientHeight } = container;
+  const isAtTop = scrollTop <= 10;
+  const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10;
+
+  if (topIndicator) {
+    topIndicator.style.opacity = isAtTop ? "0" : "1";
+  }
+  if (bottomIndicator) {
+    bottomIndicator.style.opacity = isAtBottom ? "0" : "1";
+  }
+};
+
+onMounted(() => {
+  const container = document.querySelector(".scroll-container");
+  if (container) {
+    container.addEventListener("scroll", updateScrollIndicators);
+    // Initial check
+    setTimeout(updateScrollIndicators, 100);
+  }
+});
+
+onUnmounted(() => {
+  const container = document.querySelector(".scroll-container");
+  if (container) {
+    container.removeEventListener("scroll", updateScrollIndicators);
+  }
+});
 </script>
 
 <template>
-  <div class="space-y-3 overflow-hidden">
-    <div class="overflow-x-auto no-scrollbar">
-      <table class="min-w-full text-sm table-fixed">
-        <thead class="border-b border-osrs-border">
+  <div class="flex flex-col h-full overflow-hidden relative">
+    <div
+      class="overflow-y-auto overflow-x-hidden no-scrollbar max-h-[calc(100vh-300px)] relative scroll-container"
+    >
+      <!-- Top scroll indicator -->
+      <div class="scroll-indicator-top absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-osrs-panel/90 to-transparent pointer-events-none z-20 opacity-0 transition-opacity"></div>
+
+      <table class="w-full text-base table-fixed">
+        <colgroup>
+          <col style="width: 30%" />
+          <col style="width: 14%" />
+          <col style="width: 14%" />
+          <col style="width: 12%" />
+          <col style="width: 10%" />
+          <col style="width: 12%" />
+          <col style="width: 8%" />
+        </colgroup>
+        <thead class="border-b border-osrs-border sticky top-0 bg-osrs-panel/90 backdrop-blur z-10">
           <tr>
             <th
-              class="px-3 py-3 text-left font-semibold text-osrs-text uppercase tracking-wide cursor-pointer select-none w-2/5 whitespace-nowrap"
+              class="px-2 py-3 text-left text-sm font-semibold uppercase tracking-wide cursor-pointer select-none whitespace-nowrap transition-colors"
+              :class="sortState('name') ? 'bg-osrs-accent/20 text-osrs-accent' : 'text-osrs-text hover:bg-osrs-accent/10'"
               title="Item name from the Grand Exchange listing"
               @click="toggleSort('name')"
             >
@@ -89,7 +140,8 @@ const goToDetail = (item: Item) => {
               </span>
             </th>
             <th
-              class="px-3 py-3 text-left font-semibold text-osrs-text uppercase tracking-wide cursor-pointer select-none w-24 whitespace-nowrap"
+              class="px-2 py-3 text-left text-sm font-semibold uppercase tracking-wide cursor-pointer select-none whitespace-nowrap transition-colors"
+              :class="sortState('sell') ? 'bg-osrs-accent/20 text-osrs-accent' : 'text-osrs-text hover:bg-osrs-accent/10'"
               title="Latest observed sell price on the Grand Exchange"
               @click="toggleSort('sell')"
             >
@@ -128,7 +180,8 @@ const goToDetail = (item: Item) => {
               </span>
             </th>
             <th
-              class="px-3 py-3 text-left font-semibold text-osrs-text uppercase tracking-wide cursor-pointer select-none w-24 whitespace-nowrap"
+              class="px-2 py-3 text-left text-sm font-semibold uppercase tracking-wide cursor-pointer select-none whitespace-nowrap transition-colors"
+              :class="sortState('buy') ? 'bg-osrs-accent/20 text-osrs-accent' : 'text-osrs-text hover:bg-osrs-accent/10'"
               title="Latest observed buy price on the Grand Exchange"
               @click="toggleSort('buy')"
             >
@@ -167,7 +220,8 @@ const goToDetail = (item: Item) => {
               </span>
             </th>
             <th
-              class="px-3 py-3 text-left font-semibold text-osrs-text uppercase tracking-wide cursor-pointer select-none w-24 whitespace-nowrap"
+              class="px-2 py-3 text-left text-sm font-semibold uppercase tracking-wide cursor-pointer select-none whitespace-nowrap transition-colors"
+              :class="sortState('margin') ? 'bg-osrs-accent/20 text-osrs-accent' : 'text-osrs-text hover:bg-osrs-accent/10'"
               title="Difference between sell and buy price"
               @click="toggleSort('margin')"
             >
@@ -206,7 +260,8 @@ const goToDetail = (item: Item) => {
               </span>
             </th>
             <th
-              class="px-3 py-3 text-left font-semibold text-osrs-text uppercase tracking-wide cursor-pointer select-none w-20 whitespace-nowrap"
+              class="px-2 py-3 text-left text-sm font-semibold uppercase tracking-wide cursor-pointer select-none whitespace-nowrap transition-colors"
+              :class="sortState('tax') ? 'bg-osrs-accent/20 text-osrs-accent' : 'text-osrs-text hover:bg-osrs-accent/10'"
               title="1% Grand Exchange tax applied to the sell price"
               @click="toggleSort('tax')"
             >
@@ -245,7 +300,8 @@ const goToDetail = (item: Item) => {
               </span>
             </th>
             <th
-              class="px-3 py-3 text-left font-semibold text-osrs-text uppercase tracking-wide cursor-pointer select-none w-24 whitespace-nowrap"
+              class="px-2 py-3 text-left text-sm font-semibold uppercase tracking-wide cursor-pointer select-none whitespace-nowrap transition-colors"
+              :class="sortState('profit') ? 'bg-osrs-accent/20 text-osrs-accent' : 'text-osrs-text hover:bg-osrs-accent/10'"
               title="Margin minus GE tax (estimated profit per item)"
               @click="toggleSort('profit')"
             >
@@ -284,7 +340,8 @@ const goToDetail = (item: Item) => {
               </span>
             </th>
             <th
-              class="px-3 py-3 text-left font-semibold text-osrs-text uppercase tracking-wide cursor-pointer select-none w-20 whitespace-nowrap"
+              class="px-2 py-3 text-left text-sm font-semibold uppercase tracking-wide cursor-pointer select-none whitespace-nowrap transition-colors"
+              :class="sortState('roi') ? 'bg-osrs-accent/20 text-osrs-accent' : 'text-osrs-text hover:bg-osrs-accent/10'"
               title="Profit divided by buy price, shown as a percentage return"
               @click="toggleSort('roi')"
             >
@@ -328,15 +385,15 @@ const goToDetail = (item: Item) => {
           <tr
             v-for="item in items"
             :key="item.id"
-            class="odd:bg-osrs-panel/60 even:bg-osrs-panel/40 hover:bg-osrs-accent/10 hover:scale-[1.01] transition-transform transition-colors cursor-pointer focus:outline-none"
+            class="odd:bg-osrs-panel/60 even:bg-osrs-panel/40 hover:bg-osrs-accent/10 hover:scale-[1.01] cursor-pointer focus:outline-none"
             role="button"
             tabindex="0"
             @click="goToDetail(item)"
             @keydown.enter.prevent="goToDetail(item)"
             @keydown.space.prevent="goToDetail(item)"
           >
-            <td class="px-3 py-2 w-2/5 align-top">
-              <div class="flex items-center gap-3 hover:text-osrs-accent w-full">
+            <td class="px-2 py-2 align-top">
+              <div class="flex items-center gap-2 hover:text-osrs-accent w-full">
                 <img
                   :src="item.icon"
                   :alt="item.name"
@@ -352,45 +409,48 @@ const goToDetail = (item: Item) => {
                 </div>
               </div>
             </td>
-            <td class="px-3 py-2 align-top w-24 whitespace-nowrap">
+            <td class="px-2 py-2 align-top whitespace-nowrap">
               <div class="flex flex-col leading-tight">
-                <span class="font-mono text-osrs-accent">
+                <span class="font-mono text-osrs-accent text-sm">
                   {{ formatPrice(item.sellPrice) }}
                 </span>
-                <span class="text-osrs-muted">Sell (high)</span>
+                <span class="text-osrs-muted text-xs">Sell (high)</span>
               </div>
             </td>
-            <td class="px-3 py-2 align-top w-24 whitespace-nowrap">
+            <td class="px-2 py-2 align-top whitespace-nowrap">
               <div class="flex flex-col leading-tight">
-                <span class="font-mono text-osrs-green">
+                <span class="font-mono text-osrs-green text-sm">
                   {{ formatPrice(item.buyPrice) }}
                 </span>
-                <span class="text-osrs-muted">Buy (low)</span>
+                <span class="text-osrs-muted text-xs">Buy (low)</span>
               </div>
             </td>
-            <td class="px-3 py-2 align-top w-24 whitespace-nowrap">
-              <span class="font-mono text-osrs-text">
+            <td class="px-2 py-2 align-top whitespace-nowrap">
+              <span class="font-mono text-osrs-text text-sm">
                 {{ formatPrice(item.margin) }}
               </span>
             </td>
-            <td class="px-3 py-2 align-top w-20 whitespace-nowrap">
-              <span class="font-mono text-osrs-muted">
+            <td class="px-2 py-2 align-top whitespace-nowrap">
+              <span class="font-mono text-osrs-muted text-sm">
                 {{ formatPrice(item.tax) }}
               </span>
             </td>
-            <td class="px-3 py-2 align-top w-24 whitespace-nowrap">
-              <span class="font-mono text-osrs-accentDark">
+            <td class="px-2 py-2 align-top whitespace-nowrap">
+              <span class="font-mono text-osrs-accentDark text-sm">
                 {{ formatPrice(item.profit) }}
               </span>
             </td>
-            <td class="px-3 py-2 align-top w-20 whitespace-nowrap">
-              <span class="font-mono text-osrs-text">
+            <td class="px-2 py-2 align-top whitespace-nowrap">
+              <span class="font-mono text-osrs-text text-sm">
                 {{ formatPercent(item.roi) }}
               </span>
             </td>
           </tr>
         </tbody>
       </table>
+
+      <!-- Bottom scroll indicator -->
+      <div class="scroll-indicator-bottom absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-osrs-panel/90 to-transparent pointer-events-none z-20 opacity-0 transition-opacity"></div>
     </div>
   </div>
 </template>

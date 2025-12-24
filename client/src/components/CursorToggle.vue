@@ -5,11 +5,11 @@ import dragonCursorImg from "@/assets/dragon_scimitar_cursor.png";
 
 type CursorMode = "dragon" | "default";
 
-const cursorMode = ref<CursorMode>("dragon");
+const cursorMode = ref<CursorMode>("default");
 const STORAGE_KEY = "cursor-mode";
 
 const tooltipText = computed(() =>
-  cursorMode.value === "dragon" ? "Switch to default cursor" : "Switch to dragon scimitar cursor"
+  cursorMode.value === "dragon" ? "Switch to default cursor" : "Switch to dragon scimitar cursor",
 );
 
 const setCursor = (mode: CursorMode) => {
